@@ -11,6 +11,7 @@
  */
 class USpringArmComponent;
 class UCameraComponent;
+class AAuraPlayerState;
 
 UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
@@ -20,6 +21,10 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 public:
 	AAuraCharacter();
 
+protected:
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
 private:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
@@ -27,5 +32,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	TObjectPtr<UCameraComponent> FollowCamera;
+
+	void InitAbilityActorInfo();
 
 };
