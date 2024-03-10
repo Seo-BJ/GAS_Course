@@ -33,6 +33,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	TObjectPtr<UCameraComponent> FollowCamera;
 
-	void InitAbilityActorInfo();
+	virtual void InitAbilityActorInfo() override;
 
 };
