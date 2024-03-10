@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
+
+class UAbilitySystemComponent;
 
 UENUM(BlueprintType)
 enum class EEffectApplicationPolicy : uint8
@@ -61,6 +64,11 @@ protected:
 	EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::DoNotRemove;
+
+	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+	float ActorLevel;
 
 private:
 
