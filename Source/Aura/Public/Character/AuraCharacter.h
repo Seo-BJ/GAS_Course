@@ -20,6 +20,8 @@ class AURA_API AAuraCharacter : public AAuraCharacterBase
 	
 public:
 	AAuraCharacter();
+	// Combat Interface
+	virtual int32 GetPlayerLevel() override;
 
 protected:
 	virtual void PossessedBy(AController* NewController) override;
