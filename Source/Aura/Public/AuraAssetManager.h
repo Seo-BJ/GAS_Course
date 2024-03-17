@@ -22,5 +22,7 @@ protected:
 
 	virtual void StartInitialLoading() override;
 
+	// This is required to use Target Data!
+
 	
 };

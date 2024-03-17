@@ -55,9 +55,8 @@ void AAuraPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 	UAuraEnhancedInputComponent* AuraEnhancedInputComponent = CastChecked<UAuraEnhancedInputComponent>(InputComponent);
 	AuraEnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
-	
-
-	
+	AuraEnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
+	AuraEnhancedInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	AuraEnhancedInputComponent->BindAbilityActions(InputConfig, 
 	this,
 	&AAuraPlayerController::AbilityInputTagPressed, 
@@ -159,7 +158,6 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bAutoRunning = false;
 	}
 }
-
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
@@ -171,19 +169,17 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
+	if (GetAuraAbilitySystemComponent())
 	{
-		if (GetAuraAbilitySystemComponent())
-		{
-			GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
-		}
+		GetAuraAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
 	}
-	else
+
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
-			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination) )
+			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
 			{
 				Spline->ClearSplinePoints();
 				for (const FVector& PointLoc : NavPath->PathPoints)
@@ -202,7 +198,6 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		bTargeting = false;
 	}
 }
-
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
 	
@@ -215,7 +210,7 @@ void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		if (GetAuraAbilitySystemComponent())
 		{
