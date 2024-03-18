@@ -12,6 +12,7 @@
 #include "UI/HUD/AuraHUD.h"
 
 
+
 AAuraCharacter::AAuraCharacter()
 {
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
