@@ -63,7 +63,17 @@ void AAuraProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, 
 		UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
 		if (TargetASC)
 		{
-			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			
+			if (DamageEffectSpecHandle.Data.Get())
+			{
+				TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Spec is not valid"));
+			}
+
+		
 		}
 		Destroy();
 	}

@@ -19,7 +19,15 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		if (const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability))
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(AuraAbility->StartupInputTag);
-			GiveAbility(AbilitySpec);
+			if (!IsValid(AbilitySpec.Ability))
+			{
+				UE_LOG(LogTemp, Error, TEXT("GiveAbility asc"));
+			}
+			else
+			{
+				GiveAbility(AbilitySpec);
+			}
+		
 		}
 		//GiveAbilityAndActivateOnce(AbilitySpec);
 	}
