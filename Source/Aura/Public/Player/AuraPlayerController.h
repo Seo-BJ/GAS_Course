@@ -17,6 +17,7 @@ class IEnemyInterface;
 class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
 class USplineComponent;
+class UDamageTextComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -28,11 +29,16 @@ public:
 
 	AAuraPlayerController();
 
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
 protected:
 
 	virtual void BeginPlay() override;
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 
 private:
 
@@ -82,4 +88,5 @@ private:
 	TObjectPtr<USplineComponent> Spline;
 
 	void AutoRun();
+
 };
