@@ -9,6 +9,8 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AuraEnemy.generated.h"
 
+class UBehaviorTree;
+class AAuraAIController;
 class UWidgetComponent;
 /**
  * 
@@ -26,6 +28,7 @@ public:
 	// Combat Interface
 	virtual int32 GetPlayerLevel() override;
 	virtual void Die() override;
+	virtual void PossessedBy(AController* NewController) override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
@@ -57,7 +60,11 @@ protected:
 	TObjectPtr<UWidgetComponent> HealthBar;
 
 
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
 
+	UPROPERTY()
+	TObjectPtr<AAuraAIController> AuraAIController;
 
 private: 
 
