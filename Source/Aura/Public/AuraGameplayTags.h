@@ -74,6 +74,11 @@ public:
 	FGameplayTag Montage_Attack_4;
 
 
+
+
+	FGameplayTag Attributes_Meta_IncomingXP;
+
+
 protected:
 
 

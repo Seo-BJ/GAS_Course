@@ -117,6 +117,7 @@ void AAuraCharacterBase::AddCharacterAbilities()
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
 	if (!HasAuthority()) return;
 	AuraASC->AddCharacterAbilities(StartupAbilities);
+	AuraASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 
 }
 
@@ -169,4 +170,10 @@ FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FG
 		}
 	}
 	return FTaggedMontage();
+}
+
+
+ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
 }

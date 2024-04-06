@@ -20,15 +20,8 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		if (const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability))
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(AuraAbility->StartupInputTag);
-			if (!IsValid(AbilitySpec.Ability))
-			{
-				UE_LOG(LogTemp, Error, TEXT("GiveAbility asc"));
-			}
-			else
-			{
-				GiveAbility(AbilitySpec);
-			}
-		
+
+			GiveAbility(AbilitySpec);
 		}
 		bStartupAbilitiesGiven = true;
 		AbilitiesGivenDelegate.Broadcast(this);
@@ -123,5 +116,14 @@ void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 	{
 		bStartupAbilitiesGiven = true;
 		AbilitiesGivenDelegate.Broadcast(this);
+	}
+}
+
+void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
+{
+	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartupPassiveAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		GiveAbilityAndActivateOnce(AbilitySpec);
 	}
 }

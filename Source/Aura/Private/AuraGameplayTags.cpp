@@ -217,6 +217,15 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Tag granted when Hit React")
 	);
 
+	/*
+	 * Meta Attributes
+	 */
+
+	GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingXP"),
+		FString("Incoming XP Meta Attribute")
+	);
+
 
 	/*
 	 * Montage
